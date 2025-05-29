@@ -122,6 +122,6 @@ export const loginUser = action({
       email: args.email
     })
 
-    return {userId: user._id, token: token}
+    return { userId: user._id, token: token }
   }
 })

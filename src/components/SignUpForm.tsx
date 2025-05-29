@@ -54,7 +54,7 @@ export default function SignUpForm() {
           password: formData.password
         });
 
-        console.log('User registered successfully with ID:', response.userId);
+        console.log('User registered successfully with ID:', response!.userId);
         // Handle successful registration (e.g., redirect to login page)
 
       } catch (error) {
