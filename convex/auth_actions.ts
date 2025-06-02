@@ -11,7 +11,7 @@ export const generateJwt = action({
     userId: v.id("users"),
     email: v.string()
   },
-  handler: async (ctx, args): Promise<string> => {
+  handler: async (_ctx, args): Promise<string> => {
     const payload = {
       userId: args.userId,
       email: args.email
@@ -34,7 +34,7 @@ export const verifyJwt = action({
   args: {
     token: v.string()
   },
-  handler: async (ctx, args): Promise<{ userId: Id<"users">, email: string } | null> => {
+  handler: async (_ctx, args): Promise<{ userId: Id<"users">, email: string } | null> => {
 
     console.log('ciccia')
     const secretKey = process.env.JWT_SECRET!
@@ -66,7 +66,7 @@ export const hashUserPassword = action({
   args: {
     password: v.string()
   },
-  handler: async (ctx, args): Promise<{ hash: string, salt: string }> => {
+  handler: async (_ctx, args): Promise<{ hash: string, salt: string }> => {
     return hashPassword(args.password)
   }
 })
