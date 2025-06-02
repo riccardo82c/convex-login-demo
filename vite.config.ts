@@ -1,7 +1,7 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
-import path from "path";
+import { defineConfig } from "vite"
+import react from "@vitejs/plugin-react"
+import tailwindcss from "@tailwindcss/vite"
+import path from "path"
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -11,4 +11,9 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-});
+  preview: {
+    host: '0.0.0.0',
+    port: 4173,
+    allowedHosts: true  // Questa è la riga chiave che risolve il problema
+  }
+})
