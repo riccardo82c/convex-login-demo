@@ -1,76 +1,84 @@
-import { useState, FormEvent } from 'react';
-import { useAction } from 'convex/react';
-import { api } from '../../convex/_generated/api';
-import type { FormData, FormErrors } from '@/types/global';
+import { useState, FormEvent } from 'react'
+import { useAction } from 'convex/react'
+import { api } from '../../convex/_generated/api'
+import type { FormData, FormErrors } from '@/types/global'
+import { saveAuthToken } from '@/utils/auth'
+import { useAuth } from '@/hooks/useAuth'
+import { Link, useNavigate } from 'react-router'
 
 export default function SignUpForm() {
+
+  const navigate = useNavigate()
+
+  const { setIsAuthenticated } = useAuth()
   const [formData, setFormData] = useState<FormData>({
     username: '',
     password: ''
-  });
+  })
 
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<FormErrors>({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const registerUser = useAction(api.auth_actions.registerUser);
+  const registerUser = useAction(api.auth_actions.registerUser)
 
   const validate = (): FormErrors => {
-    const newErrors: FormErrors = {};
+    const newErrors: FormErrors = {}
 
     if (!formData.username.trim()) {
-      newErrors.username = 'Username is required';
+      newErrors.username = 'Username is required'
     }
 
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = 'Password is required'
     } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = 'Password must be at least 6 characters'
     }
 
-    return newErrors;
-  };
+    return newErrors
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData({
       ...formData,
       [name]: value
-    });
-  };
+    })
+  }
 
   const handleSignUp = async (e: FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const validationErrors = validate();
-    setErrors(validationErrors);
+    const validationErrors = validate()
+    setErrors(validationErrors)
 
     if (Object.keys(validationErrors).length === 0) {
-      setIsSubmitting(true);
+      setIsSubmitting(true)
 
       try {
-        // Call the registerUser action with the form data
         const response = await registerUser({
-          email: formData.username, // Using username as email
+          email: formData.username,
           password: formData.password
-        });
+        })
 
-        console.log('User registered successfully with ID:', response!.userId);
-        // Handle successful registration (e.g., redirect to login page)
-
+        if (response?.userId && response?.token) {
+          saveAuthToken(response.token)
+          setIsAuthenticated(true)
+          void navigate('/chat')
+          console.log('User registered successfully with ID:', response.userId)
+        }
       } catch (error) {
-        console.error('Registration failed:', error);
-        // Handle registration error
+        console.error('Registration failed:', error)
         setErrors({
           username: 'Registration failed. Please try again.'
-        });
+        })
       } finally {
-        setIsSubmitting(false);
+        setIsSubmitting(false)
       }
     }
-  };
+  }
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6  rounded-lg shadow-md">
+    <div className="max-w-md mx-auto mt-8 p-6 rounded-lg shadow-md min-w-2xs">
       <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
 
       <form onSubmit={(e) => void handleSignUp(e)}>
@@ -117,7 +125,10 @@ export default function SignUpForm() {
         >
           {isSubmitting ? 'Registering...' : 'Register'}
         </button>
+        <div className='mt-4 text-center'>
+          <Link to={'/login'}>sei già registrato? effettua la login</Link>
+        </div>
       </form>
     </div>
-  );
+  )
 }

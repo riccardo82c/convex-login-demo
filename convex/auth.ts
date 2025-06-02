@@ -41,4 +41,4 @@ export const getUserByEmail = query({
       .first()
     return user
   }
-});
+})

@@ -13,5 +13,9 @@ export default defineSchema({
     email: v.string(),
     passwordHash: v.string(),
     passwordSalt: v.string(),
-  })
+  }),
+  message: defineTable({
+    user: v.string(),
+    body: v.string(),
+  }),
 });

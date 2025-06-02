@@ -2,8 +2,14 @@ import { useState, FormEvent } from 'react'
 import { useAction } from 'convex/react'
 import { api } from '../../convex/_generated/api'
 import type { FormData, FormErrors } from '@/types/global'
+import { saveAuthToken } from '@/utils/auth'
+import { useAuth } from '@/hooks/useAuth'
+import { Link, useNavigate } from 'react-router'
 
 export default function LoginForm() {
+  const navigate = useNavigate()
+
+  const { setIsAuthenticated } = useAuth()
   const [formData, setFormData] = useState<FormData>({
     username: '',
     password: ''
@@ -48,28 +54,25 @@ export default function LoginForm() {
       setIsSubmitting(true)
 
       try {
-        // Call the registerUser action with the form data
         const response = await loginUser({
-          email: formData.username, // Using username as email
+          email: formData.username,
           password: formData.password
         })
 
-        if (response?.userId) {
-          console.log('User logged in successfully with ID:', response?.userId)
-          // Handle successful login (e.g., redirect to dashboard)
+        if (response?.userId && response?.token) {
+          saveAuthToken(response.token)
+          setIsAuthenticated(true)
+          void navigate('/chat')
+          console.log('User logged in successfully with ID:', response.userId)
         } else {
-          console.error('Login failed: User not found')
-          // Handle login error
           setErrors({
             username: 'Login failed. Please check your credentials.'
           })
         }
-
       } catch (error) {
-        console.error('Registration failed:', error)
-        // Handle registration error
+        console.error('Login failed:', error)
         setErrors({
-          username: 'Registration failed. Please try again.'
+          username: 'Login failed. Please try again.'
         })
       } finally {
         setIsSubmitting(false)
@@ -78,7 +81,7 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6  rounded-lg shadow-md">
+    <div className="max-w-md mx-auto mt-8 p-6  rounded-lg shadow-md min-w-2xs">
       <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
 
       <form onSubmit={(e) => void handleLogin(e)}>
@@ -125,6 +128,10 @@ export default function LoginForm() {
         >
           {isSubmitting ? 'Check...' : 'Login'}
         </button>
+
+        <div className='mt-4 text-center'>
+          <Link to={'/signup'}>non sei registrato? registrati</Link>
+        </div>
       </form>
     </div>
   )

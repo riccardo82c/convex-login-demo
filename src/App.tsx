@@ -1,37 +1,28 @@
-"use client"
-
-import { useState } from "react"
-import LoginForm from "./components/LoginForm"
-import SignUpForm from "./components/SignUpForm"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router"
+import RootLayout from "./layouts/RootLayout"
+import AuthLayout from "./layouts/AuthLayout"
+import Login from "./routes/Login"
+import Signup from "./routes/Signup"
+import Chat from "./routes/Chat"
+import { AuthProvider } from "./AuthContext"
 
 export default function App() {
-  const [showLogin, setShowLogin] = useState(false)
-
   return (
-    <>
-      <header className="sticky top-0 z-10 bg-light dark:bg-dark p-4 border-b-2 border-slate-200 dark:border-slate-800">
-        Convex + React
-      </header>
-      <main className="p-8 flex flex-col gap-8">
-        <h1 className="text-4xl font-bold text-center">Convex + React</h1>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<RootLayout />}>
+            <Route index element={<Navigate to="/login" replace />} />
 
-        <div className="flex justify-center gap-4">
-          <button
-            onClick={() => setShowLogin(false)}
-            className={`px-4 py-2 rounded-md ${!showLogin ? 'bg-blue-600 text-white' : 'bg-gray-200 text-slate-700 cursor-pointer'}`}
-          >
-            Sign Up
-          </button>
-          <button
-            onClick={() => setShowLogin(true)}
-            className={`px-4 py-2 rounded-md ${showLogin ? 'bg-blue-600 text-white' : 'bg-gray-200 text-slate-700 cursor-pointer'}`}
-          >
-            Login
-          </button>
-        </div>
+            <Route element={<AuthLayout />}>
+              <Route path="login" element={<Login />} />
+              <Route path="signup" element={<Signup />} />
+            </Route>
 
-        {showLogin ? <LoginForm /> : <SignUpForm />}
-      </main>
-    </>
+            <Route path="chat" element={<Chat />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   )
 }

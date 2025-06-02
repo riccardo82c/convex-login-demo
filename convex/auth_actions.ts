@@ -30,6 +30,26 @@ export const generateJwt = action({
   },
 })
 
+export const verifyJwt = action({
+  args: {
+    token: v.string()
+  },
+  handler: async (ctx, args): Promise<{ userId: Id<"users">, email: string } | null> => {
+
+    console.log('ciccia')
+    const secretKey = process.env.JWT_SECRET!
+
+    try {
+      const decoded = jwt.verify(args.token, secretKey) as { userId: Id<"users">, email: string }
+
+      return { userId: decoded.userId, email: decoded.email }
+    } catch (error) {
+      console.error('Token verification failed:', error)
+      return null
+    }
+  }
+})
+
 function hashPassword(password: string): { hash: string, salt: string } {
   const salt = randomBytes(16).toString('hex')
   const hash = pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex')
