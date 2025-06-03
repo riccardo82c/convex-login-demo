@@ -17,5 +17,6 @@ export default defineSchema({
   message: defineTable({
     user: v.string(),
     body: v.string(),
+    _creationTime: v.string()
   }),
 });

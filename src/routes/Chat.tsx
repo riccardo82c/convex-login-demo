@@ -3,15 +3,22 @@ import { useAction, useMutation, useQuery } from "convex/react"
 import { api } from "../../convex/_generated/api"
 import { getAuthToken } from "@/utils/auth"
 import { Userdata } from "@/types/global"
+import { useMediaQuery } from "@uidotdev/usehooks"
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import TextInput from "@/components/ui/text-input"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
+import { EmojiPicker, EmojiPickerContent, EmojiPickerSearch, EmojiPickerFooter } from "@/components/ui/emoji-picker"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Smile } from "lucide-react"
+
 export default function Chat() {
+  const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)")
   const [userData, setUserData] = useState<Userdata | null>(null)
   const [message, setMessage] = useState<string>('')
+  const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false)
   const verifyJwt = useAction(api.auth_actions.verifyJwt)
   const sendMessage = useMutation(api.chat.sendMessage)
   const messages = useQuery(api.chat.getMessages)
@@ -55,6 +62,7 @@ export default function Chat() {
                 ? "bg-message-self ml-auto"
                 : "bg-message-other mr-auto"}`}
             >
+              <span className="text-xs text-primary-800">{new Date(message._creationTime).toLocaleString()}</span>
               <div className="text-xs text-primary-800 mb-1">{message.user}</div>
               <p className="text-primary-950 break-words">{message.body}</p>
             </article>
@@ -75,9 +83,9 @@ export default function Chat() {
               messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
             }
           }}
-          className="max-w-lg mx-auto flex items-center gap-2"
+          className="flex gap-2 w-full"
         >
-          <div className="flex-grow">
+          <div className="flex-grow relative">
             <TextInput
               value={message}
               onChange={e => setMessage(e.target.value)}
@@ -85,7 +93,36 @@ export default function Chat() {
               name="message"
               type="text"
               id="message"
+              className="pr-10"
             />
+            {!isSmallDevice && (
+              <Popover open={isEmojiPickerOpen} onOpenChange={setIsEmojiPickerOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-2 top-1/2 -translate-y-1/2"
+                    type="button"
+                  >
+                    <Smile className="h-5 w-5" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[350px] p-0 overflow-hidden">
+                  <EmojiPicker
+                    className="h-[326px] rounded-lg border shadow-md"
+                    onEmojiSelect={({ emoji }) => {
+                      setMessage(prev => prev + emoji)
+                      setIsEmojiPickerOpen(false)
+                    }}
+                  >
+                    <EmojiPickerSearch placeholder="Cerca emoji..." />
+                    <EmojiPickerContent />
+                  </EmojiPicker>
+                </PopoverContent>
+              </Popover>
+            )}
+
+
           </div>
           <Button
             type="submit"
