@@ -1,7 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-html, body, #root{
+html,
+body,
+#root {
   height: 100%;
 }
 
@@ -19,7 +21,6 @@ html, body, #root{
   }
 }
 
-
 @theme {
   --color-primary-50: #f7f7f5;
   --color-primary-100: #edece7;
@@ -34,6 +35,11 @@ html, body, #root{
   --color-primary-900: #4f473f;
 
   --color-primary-950: #4f473f;
+
+  --color-message-self: #f2d0a4;
+  --color-message-self-text: #4f473f;
+  --color-message-other: #c5dce7;
+  --color-message-other-text: #4f473f;
 }
 
 @media (prefers-color-scheme: dark) {
