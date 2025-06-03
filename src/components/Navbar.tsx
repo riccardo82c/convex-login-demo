@@ -14,13 +14,13 @@ export default function Navbar() {
 
   // Funzione per determinare la classe del link attivo
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    isActive ? "text-blue-600" : "hover:text-blue-600"
+    isActive ? "text-primary-600 underline dark:text-primary-300" : "hover:text-primary-600 dark:hover:text-primary-300"
 
   return (
-    <header className="sticky top-0 z-10 bg-light dark:bg-dark p-4 border-b-2 border-slate-200 dark:border-slate-800">
+    <header className="sticky top-0 z-10 bg-light dark:bg-dark p-4 border-b-2 border-primary-200 dark:border-primary-800">
       <div className="flex justify-between items-center">
         <Link to="/" className="text-xl font-bold">
-          Convex + React
+          Chat + Ric
         </Link>
         <nav>
           <ul className="flex gap-4">

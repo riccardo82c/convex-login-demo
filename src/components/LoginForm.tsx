@@ -6,6 +6,10 @@ import { saveAuthToken } from '@/utils/auth'
 import { useAuth } from '@/hooks/useAuth'
 import { Link, useNavigate } from 'react-router'
 
+import { Button } from './ui/button'
+import { Card, CardHeader, CardContent, CardFooter } from './ui/card'
+import TextInput from './ui/text-input'
+
 export default function LoginForm() {
   const navigate = useNavigate()
 
@@ -81,58 +85,68 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6  rounded-lg shadow-md min-w-2xs">
-      <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+    <Card className="shadow-material">
 
-      <form onSubmit={(e) => void handleLogin(e)}>
-        <div className="mb-4">
-          <label htmlFor="username" className="block text-sm font-medium mb-1">
-            Email
-          </label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md ${errors.username ? 'border-red-500' : 'border-gray-300'}`}
-            placeholder="Enter your email"
-          />
-          {errors.username && (
-            <p className="mt-1 text-sm text-red-500">{errors.username}</p>
-          )}
-        </div>
+      <CardHeader className="text-center">
 
-        <div className="mb-6">
-          <label htmlFor="password" className="block text-sm font-medium mb-1">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md ${errors.password ? 'border-red-500' : 'border-gray-300'}`}
-            placeholder="Enter your password"
-          />
-          {errors.password && (
-            <p className="mt-1 text-sm text-red-500">{errors.password}</p>
-          )}
-        </div>
+        <h2 className="text-2xl font-semibold text-center">Login</h2>
+      </CardHeader>
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-primary-950 dark:bg-primary-100 text-primary-50 dark:text-primary-950 py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50"
-        >
-          {isSubmitting ? 'Check...' : 'Login'}
-        </button>
+      <CardContent>
 
-        <div className='mt-4 text-center'>
-          <Link to={'/signup'}>non sei registrato? registrati</Link>
-        </div>
-      </form>
-    </div>
+        <form onSubmit={(e) => void handleLogin(e)}>
+
+          <div className="mb-6">
+            <TextInput
+              type='username'
+              id='username'
+              name='username'
+              value={formData.username}
+              onChange={handleChange}
+              label='Username'
+
+            />
+
+            {errors.username && (
+              <p className="mt-1 text-sm text-red-500">{errors.username}</p>
+            )}
+          </div>
+
+
+          <div className="mb-6">
+            <TextInput
+              type='password'
+              id='password'
+              name='password'
+              value={formData.password}
+              onChange={handleChange}
+              label='Password'
+
+            />
+
+            {errors.password && (
+              <p className="mt-1 text-sm text-red-500">{errors.password}</p>
+            )}
+          </div>
+
+          <Button
+            variant={'default'}
+            size={'lg'}
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full rounded-md"
+          >
+            {isSubmitting ? 'Check...' : 'Login'}
+          </Button>
+
+
+        </form>
+
+      </CardContent>
+
+      <CardFooter className='justify-center gap-2'>
+        Non sei registrato? <Link to={'/signup'} className='underline hover:no-underline'>Registrati</Link>
+      </CardFooter>
+    </Card>
   )
 }

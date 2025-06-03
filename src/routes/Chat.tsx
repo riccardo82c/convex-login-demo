@@ -4,6 +4,8 @@ import { api } from "../../convex/_generated/api"
 import { getAuthToken } from "@/utils/auth"
 import { Userdata } from "@/types/global"
 
+import { Card } from "@/components/ui/card"
+
 export default function Chat() {
   const [userData, setUserData] = useState<Userdata | null>(null)
   const [message, setMessage] = useState<string>('')
@@ -40,7 +42,7 @@ export default function Chat() {
         {/* Header */}
         <div className="bg-white p-3 shadow-sm">
           <h2 className="text-lg font-bold text-center">Convex Chat</h2>
-          
+
           {userData ? (
             <div className="text-center text-gray-600 text-xs">
               Benvenuto, <span className="font-medium">{userData.email}</span>
@@ -49,15 +51,15 @@ export default function Chat() {
             <div className="text-center text-gray-600 text-xs">Caricamento...</div>
           )}
         </div>
-        
+
         {/* Messages area - scrollable */}
         <div className="flex-grow overflow-y-auto p-3 bg-gray-50">
           <div className="max-w-lg mx-auto">
             {messages?.map((message) => (
               <article
                 key={message._id}
-                className={`mb-2 p-2 rounded-lg max-w-[85%] ${message.user === userData?.email 
-                  ? "bg-blue-100 ml-auto" 
+                className={`mb-2 p-2 rounded-lg max-w-[85%] ${message.user === userData?.email
+                  ? "bg-blue-100 ml-auto"
                   : "bg-gray-200 mr-auto"}`}
               >
                 <div className="text-xs text-gray-600 mb-1">{message.user}</div>
@@ -107,7 +109,7 @@ export default function Chat() {
       {/* Desktop layout (hidden sm:block) */}
       <div className="hidden sm:block max-w-3xl mx-auto mt-8 p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Convex Chat</h2>
-        
+
         {userData ? (
           <div className="mb-4 text-center text-gray-600">
             Benvenuto, <span className="font-medium">{userData.email}</span>
@@ -120,8 +122,8 @@ export default function Chat() {
           {messages?.map((message) => (
             <article
               key={message._id}
-              className={`mb-3 p-3 rounded-lg ${message.user === userData?.email 
-                ? "bg-blue-100 ml-12" 
+              className={`mb-3 p-3 rounded-lg ${message.user === userData?.email
+                ? "bg-blue-100 ml-12"
                 : "bg-gray-200 mr-12"}`}
             >
               <div className="text-xs text-gray-600 mb-1">{message.user}</div>

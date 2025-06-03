@@ -6,6 +6,10 @@ import { saveAuthToken } from '@/utils/auth'
 import { useAuth } from '@/hooks/useAuth'
 import { Link, useNavigate } from 'react-router'
 
+import { Button } from './ui/button'
+import { Card, CardHeader, CardContent, CardFooter } from './ui/card'
+import TextInput from './ui/text-input'
+
 export default function SignUpForm() {
 
   const navigate = useNavigate()
@@ -78,57 +82,59 @@ export default function SignUpForm() {
   }
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6 rounded-lg shadow-md min-w-2xs">
-      <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+    <Card className="shadow-material">
 
-      <form onSubmit={(e) => void handleSignUp(e)}>
-        <div className="mb-4">
-          <label htmlFor="username" className="block text-sm font-medium mb-1">
-            Email
-          </label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md ${errors.username ? 'border-red-500' : 'border-gray-300'}`}
-            placeholder="Enter your email"
-          />
-          {errors.username && (
-            <p className="mt-1 text-sm text-red-500">{errors.username}</p>
-          )}
-        </div>
+      <CardHeader className="text-center">
+        <h2 className="text-2xl font-semibold text-center">Register</h2>
+      </CardHeader>
 
-        <div className="mb-6">
-          <label htmlFor="password" className="block text-sm font-medium mb-1">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md ${errors.password ? 'border-red-500' : 'border-gray-300'}`}
-            placeholder="Enter your password"
-          />
-          {errors.password && (
-            <p className="mt-1 text-sm text-red-500">{errors.password}</p>
-          )}
-        </div>
+      <CardContent>
+        <form onSubmit={(e) => void handleSignUp(e)}>
+          <div className="mb-6">
+            <TextInput
+              type='username'
+              id='username'
+              name='username'
+              value={formData.username}
+              onChange={handleChange}
+              label='Username'
+            />
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50"
-        >
-          {isSubmitting ? 'Registering...' : 'Register'}
-        </button>
-        <div className='mt-4 text-center'>
-          <Link to={'/login'}>sei già registrato? effettua la login</Link>
-        </div>
-      </form>
-    </div>
+            {errors.username && (
+              <p className="mt-1 text-sm text-red-500">{errors.username}</p>
+            )}
+          </div>
+
+          <div className="mb-6">
+            <TextInput
+              type='password'
+              id='password'
+              name='password'
+              value={formData.password}
+              onChange={handleChange}
+              label='Password'
+            />
+
+            {errors.password && (
+              <p className="mt-1 text-sm text-red-500">{errors.password}</p>
+            )}
+          </div>
+
+          <Button
+            variant={'default'}
+            size={'lg'}
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full rounded-md"
+          >
+            {isSubmitting ? 'Registering...' : 'Register'}
+          </Button>
+        </form>
+      </CardContent>
+
+      <CardFooter className='justify-center gap-2'>
+        Sei già registrato? <Link to={'/login'} className='underline hover:no-underline'>Effettua la login</Link>
+      </CardFooter>
+    </Card>
   )
 }

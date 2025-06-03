@@ -1,17 +1,39 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+html, body, #root{
+  height: 100%;
+}
+
+@layer components {
+  .shadow-material {
+    @apply shadow-lg shadow-primary-600/20 dark:shadow-primary-100/20;
+  }
+
+  .shadow-material-md {
+    @apply shadow-xl shadow-primary-600/30 dark:shadow-primary-100/30;
+  }
+
+  .shadow-material-lg {
+    @apply shadow-2xl shadow-primary-600/40 dark:shadow-primary-100/40;
+  }
+}
+
 
 @theme {
-  --color-primary-50: #f0f9ff;
-  --color-primary-100: #e0f2fe;
-  --color-primary-200: #bae6fd;
-  --color-primary-300: #7dd3fc;
-  --color-primary-400: #38bdf8;
-  --color-primary-500: #0ea5e9;
-  --color-primary-600: #0284c7;
-  --color-primary-700: #0369a1;
-  --color-primary-800: #075985;
-  --color-primary-900: #0c4a6e;
-  --color-primary-950: #082f49;
+  --color-primary-50: #f7f7f5;
+  --color-primary-100: #edece7;
+
+  --color-primary-200: #dbd8cd;
+  --color-primary-300: #c3bfae;
+  --color-primary-400: #ada590;
+  --color-primary-500: #998e76;
+  --color-primary-600: #8c7f6a;
+  --color-primary-700: #756959;
+  --color-primary-800: #61574b;
+  --color-primary-900: #4f473f;
+
+  --color-primary-950: #4f473f;
 }
 
 @media (prefers-color-scheme: dark) {

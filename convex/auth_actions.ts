@@ -36,7 +36,6 @@ export const verifyJwt = action({
   },
   handler: async (_ctx, args): Promise<{ userId: Id<"users">, email: string } | null> => {
 
-    console.log('ciccia')
     const secretKey = process.env.JWT_SECRET!
 
     try {
