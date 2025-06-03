@@ -10,7 +10,7 @@ import TextInput from "@/components/ui/text-input"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
-import { EmojiPicker, EmojiPickerContent, EmojiPickerSearch, EmojiPickerFooter } from "@/components/ui/emoji-picker"
+import { EmojiPicker, EmojiPickerContent, EmojiPickerSearch } from "@/components/ui/emoji-picker"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Smile } from "lucide-react"
 
