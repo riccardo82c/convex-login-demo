@@ -4,6 +4,7 @@ import AuthLayout from "./layouts/AuthLayout"
 import Login from "./routes/Login"
 import Signup from "./routes/Signup"
 import Chat from "./routes/Chat"
+import Admin from "./routes/Admin"
 import { AuthProvider } from "./AuthContext"
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
             </Route>
 
             <Route path="chat" element={<Chat />} />
+            <Route path="admin" element={<Admin />} />
           </Route>
         </Routes>
       </BrowserRouter>

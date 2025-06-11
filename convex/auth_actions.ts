@@ -9,12 +9,14 @@ import jwt from 'jsonwebtoken'
 export const generateJwt = action({
   args: {
     userId: v.id("users"),
-    email: v.string()
+    email: v.string(),
+    role: v.string()
   },
   handler: async (_ctx, args): Promise<string> => {
     const payload = {
       userId: args.userId,
-      email: args.email
+      email: args.email,
+      role: args.role
     }
 
     const secretKey = process.env.JWT_SECRET!
@@ -34,14 +36,14 @@ export const verifyJwt = action({
   args: {
     token: v.string()
   },
-  handler: async (_ctx, args): Promise<{ userId: Id<"users">, email: string } | null> => {
+  handler: async (_ctx, args): Promise<{ userId: Id<"users">, email: string, role: string } | null> => {
 
     const secretKey = process.env.JWT_SECRET!
 
     try {
-      const decoded = jwt.verify(args.token, secretKey) as { userId: Id<"users">, email: string }
+      const decoded = jwt.verify(args.token, secretKey) as { userId: Id<"users">, email: string, role: string }
 
-      return { userId: decoded.userId, email: decoded.email }
+      return { userId: decoded.userId, email: decoded.email, role: decoded.role }
     } catch (error) {
       console.error('Token verification failed:', error)
       return null
@@ -103,7 +105,8 @@ export const registerUser = action({
 
     const token = await ctx.runAction(api.auth_actions.generateJwt, {
       userId: userId,
-      email: args.email
+      email: args.email,
+      role: "user"
     })
 
     return { userId, token }
@@ -138,7 +141,8 @@ export const loginUser = action({
 
     const token = await ctx.runAction(api.auth_actions.generateJwt, {
       userId: user._id,
-      email: args.email
+      email: args.email,
+      role: user.role
     })
 
     return { userId: user._id, token: token }

@@ -1,5 +1,5 @@
-import { defineSchema, defineTable } from "convex/server";
-import { v } from "convex/values";
+import { defineSchema, defineTable } from "convex/server"
+import { v } from "convex/values"
 
 // The schema is entirely optional.
 // You can delete this file (schema.ts) and the
@@ -13,10 +13,11 @@ export default defineSchema({
     email: v.string(),
     passwordHash: v.string(),
     passwordSalt: v.string(),
+    role: v.string()
   }),
   message: defineTable({
     user: v.string(),
     body: v.string(),
     _creationTime: v.string()
   }),
-});
+})

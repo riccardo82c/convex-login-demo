@@ -14,7 +14,8 @@ export const createUser = mutation({
     const userId = await ctx.db.insert("users", {
       email: args.email,
       passwordHash: args.passwordHash,
-      passwordSalt: args.passwordSalt
+      passwordSalt: args.passwordSalt,
+      role: 'user'
     })
 
     console.log('Added new user with id: ', userId)

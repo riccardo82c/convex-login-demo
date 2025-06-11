@@ -13,6 +13,7 @@ interface Userdata {
   email: string
   token?: string
   createdAt?: number
+  role: string
 }
 
 
