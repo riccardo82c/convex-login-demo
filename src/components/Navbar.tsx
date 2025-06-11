@@ -1,4 +1,4 @@
-import { Link, NavLink, useNavigate } from "react-router"
+import { NavLink, useNavigate } from "react-router"
 import { getAuthToken, removeAuthToken } from "@/utils/auth"
 import { useAuth } from "@/hooks/useAuth"
 import { useEffect, useState } from "react"
